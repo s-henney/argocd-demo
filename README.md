@@ -39,3 +39,8 @@ Password: <obtained in step 5>
 ```
 argocd account update-password
 ``` 
+8. Login to the UI!
+```
+User: admin
+Password: <your_password>
+```
