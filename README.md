@@ -38,4 +38,4 @@ Password: <obtained in step 5>
 7. Change the password if you'd like
 ```
 argocd account update-password
-```
+``` 
