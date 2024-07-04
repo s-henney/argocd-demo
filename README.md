@@ -77,7 +77,7 @@ To get started we will deploy an application via the argocd UI.
 
 ## Deploy a Microservice Demo
 
-We are going to deploy a microservices demo project that consists of 10 services.
+We are going to deploy a microservices demo project that consists of 11 services.
 
 1. Open terminal and run
 ```
@@ -94,4 +94,16 @@ kubectl port-forward svc/frontend 8000:80
 
 ## Update a Deployment
 
-1. 
+1. Open the file `frontend/deployment.yml`
+2. Comment out line 35 and uncomment line 36. This will modify which image the deployment is pointing to.
+3. Push the change to your repository.
+4. Wait for argocd to sync it or force a sync by clicking the `refresh` or `sync` buttons in the UI.
+5. Navigate to the website to see the changes! Note you may need to hard refresh your browser to clear any cache.
+
+## Rollback the deployment
+
+1. Open the UI and navigate to the frontend argo instance
+2. Click `History and Rollback`
+3. Find the deployment you want to rollback to, click the menu buttons, and click rollback
+4. You will be prompted that auto-sync must be disabled. Continue and watch as argo rolls back to the previous deployment.
+5. Once the pod is up refresh the website again to see it back in the original state
