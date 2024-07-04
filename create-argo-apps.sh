@@ -17,6 +17,7 @@ argocd app create cartservice --repo $url --path cartservice --dest-namespace de
 argocd app create checkoutservice --repo $url --path checkoutservice --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse --sync-policy automated
 argocd app create currencyservice --repo $url --path currencyservice --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse --sync-policy automated
 argocd app create emailservice --repo $url --path emailservice --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse --sync-policy automated
+argocd app create frontend --repo $url --path frontend --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse --sync-policy automated
 argocd app create paymentservice --repo $url --path paymentservice --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse --sync-policy automated
 argocd app create productcatalogservice --repo $url --path productcatalogservice --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse --sync-policy automated
 argocd app create recommendationservice --repo $url --path recommendationservice --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse --sync-policy automated
