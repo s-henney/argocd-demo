@@ -15,7 +15,7 @@ Open this project in VSCode and then re-open in a dev container.
 
 Open a terminal within VSCode and follow the steps below.
 
-1. Start the minikube cluster
+1. Start the minikube cluster 
 ```
 minikube start
 ```
