@@ -43,6 +43,7 @@ argocd admin initial-password -n argocd
 argocd login localhost:8080
 ```
 Username: admin
+
 Password: <obtained in step 5>
 
 7. Change the password if you'd like
