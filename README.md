@@ -33,6 +33,7 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 The API server can then be accessed using https://localhost:8080.
 NOTE: This is a self signed cert, you will need to tell your browser to trust it.
+
 5. Obtain the default password
 ```
 argocd admin initial-password -n argocd
@@ -43,6 +44,7 @@ argocd login localhost:8080
 ```
 Username: admin
 Password: <obtained in step 5>
+
 7. Change the password if you'd like
 ```
 argocd account update-password
