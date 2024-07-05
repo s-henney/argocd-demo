@@ -50,7 +50,7 @@ Password: <obtained in step 5>
 ```
 argocd account update-password
 ``` 
-8. Login to the UI!
+8. Login to the UI at https://localhost:8080!
 ```
 User: admin
 Password: <your_password>
