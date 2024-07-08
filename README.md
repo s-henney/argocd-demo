@@ -1,17 +1,46 @@
 # Workshop
 
 ## Prerequisites
+
+You have 2 options for this workshop. Only choose one!
+
+### 1. Local Desktop
 - Visual Studio Code version that can run dev containers
 - Docker Desktop
 - Github account
 
+### 2. Github Code Spaces
+- Github account with at least 1.5 hours left of the free 4 core tier.
+
 ## Fork repository
+
+### 1. Local Desktop
 1. Fork this repository into your github account and check it out on your machine.
 
-## Install Argo
 Open this project in VSCode and then re-open in a dev container.
 
 ![dev-container](./screenshots/dev-container.png)
+
+### 2. Github Code Spaces
+
+1. Go to [codespaces](https://github.com/features/codespaces)
+2. Click `Get started for free`
+![code-spaces-1](./screenshots/code-spaces-1.png)
+3. Click `New Codespace`
+![code-spaces-2](./screenshots/code-spaces-2.png)
+4. Select the following options
+- Repository: `The forked argocd-demo repo`
+- Branch: `main`
+- Dev container configuration: `Kubernetes - Minikube-in-Docker`
+- Region: `US East`
+- Machine type: `4-core`
+![code-spaces-3](./screenshots/code-spaces-3.png)
+
+Wait for the codespace to inititialize.
+## Install Argo
+
+From here on out the instructions should apply to either codespaces or local with one exception:
+- Any references to `localhost` will need to be replaced by the url for your specific codespace. Visual studio code in the browser should help guide you in this by offering to open forwarded ports in a browser.
 
 Open a terminal within VSCode and follow the steps below.
 
@@ -27,12 +56,21 @@ kubectl create namespace argocd
 ```
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
+- One more step for Github Codespace users only. This disables tls for the argocd server to allow access from the public url codespaces exposes. Run the following command:
+```
+    kubectl patch deployment argocd-server -n argocd --type='json' -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--insecure"}]'
+
+```
+- Wait for the new pod to come up. Run the following until you see the new one is up and old has cycled off.
+```
+kubectl -n argocd get pods
+```
 4. Port forward the argocd UI to port 8080
 ```
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 The API server can then be accessed using https://localhost:8080.
-NOTE: This is a self signed cert, you will need to tell your browser to trust it.
+NOTE: This is a self signed cert, you may need to tell your browser to trust it.
 
 5. Obtain the default password
 ```
@@ -68,7 +106,7 @@ To get started we will deploy an application via the argocd UI.
   - Project Name: select `default`
   - Sync Policy: select `Automatic`
 - `Source` Section
-  - Repository URL: `https://github.com/dillon-courts/gcp-microservices-deployment`
+  - Repository URL (use your forked url): `https://github.com/dillon-courts/gcp-microservices-deployment`
   - Path: `adservice`
 - `Destination` Section
   - Cluster URL: Select `https://kubernetes.default.svc`
@@ -98,10 +136,18 @@ kubectl port-forward svc/frontend 8000:80
 ## Update a Deployment
 
 1. Open the file `frontend/deployment.yml`
-2. Comment out line 35 and uncomment line 36. This will modify which image the deployment is pointing to.
+2. Comment out line 35 and uncomment the correct line for your machine:
+    - Local m1 mac: `green.2`
+    - Everything else: `green.2.amd64`uncomment line 36. 
+
+This will modify which image the deployment is pointing to.
+
 3. Push the change to your repository.
+    1. `git commit -a -m "update frontend image"`
+    2. `git push`
 4. Wait for argocd to sync it or force a sync by clicking the `refresh` or `sync` buttons in the UI.
-5. Navigate to the website to see the changes! Note you may need to hard refresh your browser to clear any cache.
+5. You will likely need to restart your port forwarding.
+6. Navigate to the website to see the changes! Note you may need to hard refresh your browser to clear any cache.
 
 ## Rollback the deployment
 
@@ -110,3 +156,6 @@ kubectl port-forward svc/frontend 8000:80
 3. Find the deployment you want to rollback to, click the menu buttons, and click rollback
 4. You will be prompted that auto-sync must be disabled. Continue and watch as argo rolls back to the previous deployment.
 5. Once the pod is up refresh the website again to see it back in the original state
+    - Note you may have to restart the port-forward from earlier
+    - `ctl+c` to kill the current port-forward
+    - `kubectl port-forward svc/frontend 8000:80`
