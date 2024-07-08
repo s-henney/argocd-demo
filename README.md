@@ -14,8 +14,10 @@ You have 2 options for this workshop. Only choose one!
 
 ## Fork repository
 
+1. Fork this repository into your github account.
+
 ### 1. Local Desktop
-1. Fork this repository into your github account and check it out on your machine.
+1. Check forked repository out on your machine.
 
 Open this project in VSCode and then re-open in a dev container.
 
